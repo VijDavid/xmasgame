@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Memory Game ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<style>
+.corner {position: fixed; top: 20px; width:200px; height:200px; object-fit:cover; border-radius:50%; border:3px solid white; box-shadow:0 5px 15px rgba(0,0,0,0.3); z-index:1000;}
+.corner.left {left:20px;}
+.corner.right {right:20px;}
+.snowflake {position:fixed; top:-10px; z-index:999; pointer-events:none; user-select:none; font-size:15px;}
+.memory-grid {display:grid; grid-template-columns:repeat(5,1fr); gap:15px; max-width:600px; margin:60px auto; padding:20px;}
+.card {width:100%; aspect-ratio:1/1; perspective:1000px; cursor:pointer; position:relative;}
+.card-inner {position:absolute; width:100%; height:100%; transition:transform 0.5s; transform-style:preserve-3d;}
+.card.flipped .card-inner {transform:rotateY(180deg);}
+.front, .back {position:absolute; width:100%; height:100%; border-radius:12px; backface-visibility:hidden; display:flex; justify-content:center; align-items:center;}
+.front {background:#ff4d6d; font-size:2.5rem;}
+.back {transform:rotateY(180deg);}
+</style>
+</head>
+<body>
+
+<img src="images/left.jpg" class="corner left" alt="Left photo">
+<img src="images/right.jpg" class="corner right" alt="Right photo">
+
+<h1>💖 Memory Game</h1>
+<p>Find all matching pairs</p>
+
+<div class="memory-grid" id="grid"></div>
+<a href="index.html">⬅ Back to menu</a>
+
+<script>
+const values = [1,1,2,2,3,3,4,4,5,5];
+const shuffled = values.sort(() => Math.random()-0.5);
+const grid = document.getElementById("grid");
+let flipped = [];
+let lock = false;
+
+shuffled.forEach(value => {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `
+    <div class="card-inner">
+      <div class="front">?</div>
+      <div class="back"><img src="images/photo${value}.jpg" alt="Card ${value}" style="width:100%; height:100%; border-radius:12px; object-fit:cover;"></div>
+    </div>
+  `;
+  card.addEventListener("click", () => {
+    if(lock || card.classList.contains("flipped")) return;
+    card.classList.add("flipped");
+    flipped.push(card);
+    if(flipped.length ===2){
+      lock=true;
+      const [c1,c2]=flipped;
+      const v1=c1.querySelector(".back img").src;
+      const v2=c2.querySelector(".back img").src;
+      if(v1===v2){
+        flipped=[];
+        lock=false;
+        if([...grid.children].every(c=>c.classList.contains("flipped"))){
+          setTimeout(()=>{
+            alert("You matched all pairs! 🎉\nYour clues: Gorgeous, Breathtaking, Stunning, Exquisite.");
+            localStorage.setItem('memoryComplete','true');
+            window.location.href="dictionary.html";
+          },300);
+        }
+      }else{
+        setTimeout(()=>{
+          c1.classList.remove("flipped");
+          c2.classList.remove("flipped");
+          flipped=[];
+          lock=false;
+        },900);
+      }
+    }
+  });
+  grid.appendChild(card);
+});
+
+// Snow animation
+for(let i=0;i<40;i++){
+  const snow=document.createElement("div");
+  snow.className="snowflake";
+  snow.textContent="❄";
+  snow.style.left=Math.random()*100+"vw";
+  snow.style.fontSize=10+Math.random()*20+"px";
+  snow.style.animationDuration=5+Math.random()*5+"s";
+  document.body.appendChild(snow);
+}
+const style=document.createElement("style");
+style.textContent=`
+@keyframes fall{0%{transform:translateY(0);}100%{transform:translateY(110vh);}}
+.snowflake{animation-name:fall; animation-timing-function:linear; animation-iteration-count:infinite;}
+`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>

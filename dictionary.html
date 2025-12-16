@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dictionary Puzzle 📖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<style>
+.corner {position: fixed; top: 20px; width:200px; height:200px; object-fit:cover; border-radius:50%; border:3px solid white; box-shadow:0 5px 15px rgba(0,0,0,0.3); z-index:1000;}
+.corner.left {left:20px;}
+.corner.right {right:20px;}
+.snowflake {position:fixed; top:-10px; z-index:999; pointer-events:none; user-select:none; font-size:15px;}
+.book {max-width:900px;margin:40px auto;background:#f7f1e3;color:#3a2c1a;padding:40px;border-radius:12px;box-shadow:0 20px 50px rgba(0,0,0,0.4);min-height:420px;position:relative;}
+.page-number {position:absolute; bottom:15px; right:30px; font-size:0.9rem; opacity:0.6;}
+.word{font-weight:bold;font-size:1.3rem;margin-top:25px;}
+.definition{margin-left:15px; line-height:1.6;}
+.highlight{background:#ffdddd;font-weight:bold;padding:2px 4px;border-radius:4px;}
+.controls{display:flex;justify-content:space-between;margin-top:20px;}
+button{padding:10px 20px;border-radius:10px;border:none;font-size:1rem;cursor:pointer;}
+.search-box{max-width:900px;margin:20px auto;text-align:center;}
+input[type="text"]{padding:10px;width:60%;border-radius:10px;border:none;font-size:1rem;}
+.message-box{max-width:900px;margin:40px auto;background:rgba(255,255,255,0.15);padding:20px;border-radius:15px;color:white;font-size:1.2rem;}
+.big-you{display:none;font-size:5rem;margin-top:30px;color:#ff4d6d;animation:pop 1s ease-in-out infinite alternate;}
+#finalBtn{display:none;margin-top:20px;padding:10px 20px;font-size:1.2rem;border-radius:10px;cursor:pointer;}
+@keyframes pop{from{transform:scale(1);}to{transform:scale(1.1);}}
+</style>
+</head>
+<body>
+
+<img src="images/left.jpg" class="corner left" alt="Left photo">
+<img src="images/right.jpg" class="corner right" alt="Right photo">
+
+<h1>📖 The Dictionary</h1>
+<p>Some words hide more than definitions…</p>
+
+<div class="search-box">
+<input type="text" id="search" placeholder="Search a word...">
+</div>
+
+<div class="book" id="book"></div>
+
+<div class="controls">
+<button onclick="prevPage()">⬅ Previous</button>
+<button onclick="nextPage()">Next ➡</button>
+</div>
+
+<div class="message-box">
+<p>Write the message as you discover it:</p>
+<input type="text" id="messageInput" placeholder="Type here..." oninput="checkMessage()">
+<div class="big-you" id="bigYou">YOU ❤️</div>
+<button id="finalBtn">Go to final page</button>
+</div>
+
+<script>
+// Pages with images
+let currentPage=1;
+const pages={
+ 1:[["Abstract","Existing in thought but not physically present."],["Brilliant","Exceptionally clever or talented."],["Calm","A peaceful and steady state."]],
+ 23:[["Gorgeous","Something truly beautiful — <span class='highlight'>all</span> eyes are drawn to it.<br><img src='images/Gorgeous.jpg' style='width:70%; margin-top:10px; border-radius:12px;'>"]],
+ 67:[["Breathtaking","So stunning that <span class='highlight'>I want</span> to pause time.<br><img src='images/Breathtaking.jpg' style='width:70%; margin-top:10px; border-radius:12px;'>"]],
+ 420:[["Stunning","Visually striking — <span class='highlight'>for</span> a moment, words fail.<br><img src='images/Stunning.jpg' style='width:70%; margin-top:10px; border-radius:12px;'>"]],
+ 700:[["Exquisite","Extremely beautiful — <span class='highlight'>christmas is</span> filled with warmth.<br><img src='images/Exquisite.jpg' style='width:70%; margin-top:10px; border-radius:12px;'>"]]
+};
+
+function renderPage(){
+ const book=document.getElementById("book");
+ const content=pages[currentPage];
+ if(!content){book.innerHTML=`<p>This page is blank…</p><div class="page-number">Page ${currentPage}</div>`; return;}
+ book.innerHTML=content.map(([word,def])=>`<div class="word">${word}</div><div class="definition">${def}</div>`).join("")+`<div class="page-number">Page ${currentPage}</div>`;
+}
+
+function nextPage(){currentPage++; renderPage();}
+function prevPage(){if(currentPage>1) currentPage--; renderPage();}
+
+document.getElementById("search").addEventListener("input", e=>{
+ const query=e.target.value.toLowerCase();
+ for(let page in pages){
+  if(pages[page].some(w=>w[0].toLowerCase().includes(query))){currentPage=parseInt(page); renderPage(); break;}
+ }
+});
+
+function checkMessage(){
+ const input=document.getElementById("messageInput").value.toLowerCase().trim();
+ if(input==="all i want for christmas is"){
+   const bigYou=document.getElementById("bigYou");
+   bigYou.style.display="block";
+   const finalBtn=document.getElementById("finalBtn");
+   finalBtn.style.display="inline-block";
+   finalBtn.addEventListener("click",()=>{window.location.href="final.html";});
+   const audio=new Audio("music/christmas_song.mp3"); audio.play();
+ }
+}
+
+renderPage();
+
+// Snow animation
+for(let i=0;i<40;i++){
+ const snow=document.createElement("div");
+ snow.className="snowflake"; snow.textContent="❄";
+ snow.style.left=Math.random()*100+"vw";
+ snow.style.fontSize=10+Math.random()*20+"px";
+ snow.style.animationDuration=5+Math.random()*5+"s";
+ document.body.appendChild(snow);
+}
+const style=document.createElement("style");
+style.textContent=`@keyframes fall{0%{transform:translateY(0);}100%{transform:translateY(110vh);}}.snowflake{animation-name:fall;animation-timing-function:linear;animation-iteration-count:infinite;}`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>

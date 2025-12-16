@@ -1,1 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For My Baby ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <img src="images/left.jpg" class="corner left" alt="Us left">
+  <img src="images/right.jpg" class="corner right" alt="Us right">
 
+  <h1>FOR MY BABY ❤️</h1>
+  <p class="subtitle">Choose a Christmas surprise 🎄</p>
+
+  <div class="games">
+    <a href="memory.html" class="game-card">
+      <h2>💖 Memory Game</h2>
+      <p>Find the matching pairs</p>
+    </a>
+
+    <a href="dictionary.html" class="game-card locked" id="dictionaryLink">
+      <h2>🎄 Dictionary Puzzle</h2>
+      <p>Find the hidden words</p>
+    </a>
+
+    <a href="final.html" class="game-card locked">
+      <h2>🎅 Final Question</h2>
+      <p>Coming soon...</p>
+    </a>
+  </div>
+
+  <script src="snow.js"></script>
+  <script>
+    // Unlock dictionary if memory completed
+    window.addEventListener('DOMContentLoaded', () => {
+      const dictionaryLink = document.getElementById('dictionaryLink');
+      if (localStorage.getItem('memoryComplete') === 'true') {
+        dictionaryLink.classList.remove('locked');
+      }
+    });
+  </script>
+</body>
+</html>
