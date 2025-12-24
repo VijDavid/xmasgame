@@ -6,9 +6,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="style.css">
 <style>
-.corner {position: fixed; top: 20px; width:200px; height:200px; object-fit:cover; border-radius:50%; border:3px solid white; box-shadow:0 5px 15px rgba(0,0,0,0.3); z-index:1000;}
-.corner.left {left:20px;}
-.corner.right {right:20px;}
+.corner.left {left:20px;}.corner {
+  position: fixed;
+  bottom: 20px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  z-index: 1000;
+  transition: width 0.3s, height 0.3s;
+}
+
+/* 📱 Mobile (default) */
+.corner {
+  width: 110px;
+  height: 110px;
+}
+
+/* 💻 Tablet */
+@media (min-width: 768px) {
+  .corner {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+/* 🖥️ Laptop & Desktop */
+@media (min-width: 1024px) {
+  .corner {
+    width: 220px;
+    height: 220px;
+  }
+}
+
+.corner.left { left: 20px; }
+.corner.right { right: 20px; }
 .snowflake {position:fixed; top:-10px; z-index:999; pointer-events:none; user-select:none; font-size:15px;}
 .memory-grid {display:grid; grid-template-columns:repeat(5,1fr); gap:15px; max-width:600px; margin:60px auto; padding:20px;}
 .card {width:100%; aspect-ratio:1/1; perspective:1000px; cursor:pointer; position:relative;}
