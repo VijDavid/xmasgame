@@ -45,26 +45,29 @@ h1 {
 }
 .corner {
   position: fixed;
-  top: 20px;
+  top: 12px;
   object-fit: cover;
   border-radius: 50%;
   border: 3px solid white;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   z-index: 1000;
-  transition: width 0.3s ease, height 0.3s ease;
 }
 
-/* 📱 Mobile (default) */
-.corner {
-  width: 100px;
-  height: 100px;
+/* 📱 Phones */
+@media (max-width: 480px) {
+  .corner {
+    width: 70px;
+    height: 70px;
+    bottom: 8px;
+    opacity: 0.9;
+  }
 }
 
 /* 📱➡️💻 Tablet */
-@media (min-width: 768px) {
+@media (min-width: 481px) and (max-width: 1023px) {
   .corner {
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
   }
 }
 
@@ -76,13 +79,9 @@ h1 {
   }
 }
 
-.corner.left {
-  left: 20px;
-}
+.corner.left { left: 10px; }
+.corner.right { right: 10px; }
 
-.corner.right {
-  right: 20px;
-}
 
 .memory-grid {
   display: grid;
@@ -136,5 +135,15 @@ h1 {
   background: white;
   color: #b11226;
   transform: rotateY(180deg);
+}
+
+body {
+  padding-top: 90px;
+}
+
+@media (max-width: 480px) {
+  body {
+    padding-top: 40px;
+  }
 }
 
