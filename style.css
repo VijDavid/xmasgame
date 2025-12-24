@@ -45,24 +45,44 @@ h1 {
 }
 .corner {
   position: fixed;
-  top: 20px;        /* distance from top */
-  width: 200px;     /* size of the image */
-  height: 200px;
+  top: 20px;
   object-fit: cover;
-  border-radius: 50%; /* makes them round */
+  border-radius: 50%;
   border: 3px solid white;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  z-index: 1000;     /* ensures it stays above other content */
+  z-index: 1000;
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+/* 📱 Mobile (default) */
+.corner {
+  width: 100px;
+  height: 100px;
+}
+
+/* 📱➡️💻 Tablet */
+@media (min-width: 768px) {
+  .corner {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+/* 💻 Laptop & Desktop */
+@media (min-width: 1024px) {
+  .corner {
+    width: 220px;
+    height: 220px;
+  }
 }
 
 .corner.left {
-  left: 20px;       /* distance from left */
+  left: 20px;
 }
 
 .corner.right {
-  right: 20px;      /* distance from right */
+  right: 20px;
 }
-/* ===== MEMORY GAME ===== */
 
 .memory-grid {
   display: grid;
