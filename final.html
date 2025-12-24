@@ -12,7 +12,17 @@ body{font-family:'Segoe UI',sans-serif;background:linear-gradient(180deg,#b11226
 button{padding:15px 30px;font-size:1.2rem;border-radius:10px;border:none;margin:0 20px;cursor:pointer;}
 button.yes{background-color:#ff4d6d;color:white;}
 button.no{background-color:#555;color:white; position: absolute;}
-.corner {position: fixed; top: 20px; width:200px; height:200px; object-fit:cover; border-radius:50%; border:3px solid white; box-shadow:0 5px 15px rgba(0,0,0,0.3); z-index:1000;}
+.corner {
+  position: fixed;
+  bottom: 20px; /* moved to bottom */
+  width:200px;
+  height:200px;
+  object-fit:cover;
+  border-radius:50%;
+  border:3px solid white;
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+  z-index:1000;
+}
 .corner.left {left:20px;}
 .corner.right {right:20px;}
 .snowflake {position:fixed; top:-10px; z-index:999; pointer-events:none; user-select:none; font-size:15px;}
@@ -66,5 +76,6 @@ document.head.appendChild(style);
 </script>
 </body>
 </html>
+
 
 
